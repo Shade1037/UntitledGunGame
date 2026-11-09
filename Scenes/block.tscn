@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://dvtu4lb6sf6kh"]
+
+[ext_resource type="Texture2D" uid="uid://calkma8erwp65" path="res://Images/Player/rect.tres" id="1_ejx3s"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_44u30"]
+size = Vector2(64, 64)
+
+[node name="Node2D" type="StaticBody2D" unique_id=2026726895]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1075711513]
+shape = SubResource("RectangleShape2D_44u30")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=510808270]
+texture = ExtResource("1_ejx3s")
