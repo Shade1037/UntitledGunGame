@@ -1,46 +1,139 @@
-[gd_scene format=3 uid="uid://duaqlprpdofgb"]
+[gd_scene load_steps=3 format=3 uid="uid://duaqlprpdofgb"]
 
 [ext_resource type="PackedScene" uid="uid://dvtu4lb6sf6kh" path="res://Scenes/block.tscn" id="2_8od7v"]
 [ext_resource type="PackedScene" uid="uid://dbiblfx4sd2l2" path="res://Scenes/Player.tscn" id="2_qc4db"]
 
-[node name="Node2D" type="Node2D" unique_id=779302581]
+[node name="Node2D" type="Node2D"]
 
-[node name="CharacterBody2D" parent="." unique_id=842678542 instance=ExtResource("2_qc4db")]
+[node name="player" parent="." instance=ExtResource("2_qc4db")]
 position = Vector2(160, 352)
 
-[node name="Node2D" parent="." unique_id=2026726895 instance=ExtResource("2_8od7v")]
-position = Vector2(576, 616)
-scale = Vector2(19.44741, 1.2495459)
+[node name="Map" type="Node" parent="."]
 
-[node name="Node2D2" parent="." unique_id=816498278 instance=ExtResource("2_8od7v")]
+[node name="Node2D" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(576, 616)
+scale = Vector2(52.502388, 1.2602427)
+
+[node name="Node2D13" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(576, 696)
+scale = Vector2(52.502388, 1.2602427)
+
+[node name="Node2D22" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(576.00006, 776)
+scale = Vector2(52.502388, 1.2602427)
+
+[node name="Node2D24" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(576, 936.00006)
+scale = Vector2(52.502388, 1.2602427)
+
+[node name="Node2D23" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(576, 856)
+scale = Vector2(52.502388, 1.2602427)
+
+[node name="Node2D2" parent="Map" instance=ExtResource("2_8od7v")]
 position = Vector2(736, 544)
 
-[node name="Node2D3" parent="." unique_id=643777372 instance=ExtResource("2_8od7v")]
+[node name="Node2D3" parent="Map" instance=ExtResource("2_8od7v")]
 position = Vector2(800, 544)
 
-[node name="Node2D4" parent="." unique_id=1613074397 instance=ExtResource("2_8od7v")]
+[node name="Node2D4" parent="Map" instance=ExtResource("2_8od7v")]
 position = Vector2(800, 480)
 
-[node name="Node2D5" parent="." unique_id=82073697 instance=ExtResource("2_8od7v")]
+[node name="Node2D5" parent="Map" instance=ExtResource("2_8od7v")]
 position = Vector2(864, 480)
 
-[node name="Node2D6" parent="." unique_id=1113680948 instance=ExtResource("2_8od7v")]
+[node name="Node2D6" parent="Map" instance=ExtResource("2_8od7v")]
 position = Vector2(864, 544)
 
-[node name="Node2D7" parent="." unique_id=46842940 instance=ExtResource("2_8od7v")]
+[node name="Node2D7" parent="Map" instance=ExtResource("2_8od7v")]
 position = Vector2(544, 416)
 
-[node name="Node2D8" parent="." unique_id=841131012 instance=ExtResource("2_8od7v")]
+[node name="Node2D8" parent="Map" instance=ExtResource("2_8od7v")]
 position = Vector2(608, 416)
 
-[node name="Node2D11" parent="." unique_id=1525278413 instance=ExtResource("2_8od7v")]
+[node name="Node2D11" parent="Map" instance=ExtResource("2_8od7v")]
 position = Vector2(288, 352)
 
-[node name="Node2D12" parent="." unique_id=1532082473 instance=ExtResource("2_8od7v")]
+[node name="Node2D14" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(160, 224)
+
+[node name="Node2D15" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(160, 160)
+
+[node name="Node2D19" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(544, 224)
+
+[node name="Node2D20" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(608, 224)
+
+[node name="Node2D21" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(672, 224)
+
+[node name="Node2D17" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(96, 96)
+
+[node name="Node2D18" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(32, 96)
+
+[node name="Node2D25" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(-32, 96)
+
+[node name="Node2D26" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(-96, 96)
+
+[node name="Node2D27" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(-160, -96)
+
+[node name="Node2D30" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(-160, -160)
+
+[node name="Node2D31" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(-160, -224)
+
+[node name="Node2D32" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(-160, -288)
+
+[node name="Node2D33" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(-160, -352)
+
+[node name="Node2D34" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(-160, -416)
+
+[node name="Node2D41" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(-224, -416)
+
+[node name="Node2D29" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(32, -96)
+
+[node name="Node2D35" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(32, -160)
+
+[node name="Node2D36" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(32, -224)
+
+[node name="Node2D37" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(32, -288)
+
+[node name="Node2D38" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(32, -352)
+
+[node name="Node2D39" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(32, -416)
+
+[node name="Node2D40" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(96, -416)
+
+[node name="Node2D28" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(-160, 96)
+
+[node name="Node2D16" parent="Map" instance=ExtResource("2_8od7v")]
+position = Vector2(160, 96)
+
+[node name="Node2D12" parent="Map" instance=ExtResource("2_8od7v")]
 position = Vector2(352, 352)
 
-[node name="Node2D9" parent="." unique_id=2065445492 instance=ExtResource("2_8od7v")]
+[node name="Node2D9" parent="Map" instance=ExtResource("2_8od7v")]
 position = Vector2(1056, 544)
 
-[node name="Node2D10" parent="." unique_id=787803929 instance=ExtResource("2_8od7v")]
+[node name="Node2D10" parent="Map" instance=ExtResource("2_8od7v")]
 position = Vector2(1120, 544)
