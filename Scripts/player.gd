@@ -13,6 +13,8 @@ var jumps: int = maxjumps
 @export var walljump_pushback: float = 400.0
 var is_wall_sliding: bool = true
 var wallside: String = "none"
+var wallslide_time: float = 0.0;
+var wallslide_spark_time: float = 0.25;
 
 # Effects
 var sparkPrefab = preload("res://Assets/Particles/spark.tscn")
@@ -50,15 +52,17 @@ func _physics_process(delta: float) -> void:
 				var collision := get_slide_collision(i)
 				var normal := collision.get_normal()
 				if normal.x < 0:
-					
 					if Input.is_action_just_pressed("jump"):
 						velocity.y = jump_velocity
 						velocity.x = -walljump_pushback
 					is_wall_sliding = true
 					wallside = "right"
+					if wallslide_time > wallslide_spark_time:
+						spawnSparks(true)
 				else:
 					is_wall_sliding = false
 					wallside = "none"
+					wallslide_time = 0
 		# Left Wall
 		elif Input.is_action_pressed("move_left"):
 			for i in range(get_slide_collision_count()):
@@ -70,24 +74,31 @@ func _physics_process(delta: float) -> void:
 						velocity.x = walljump_pushback
 					is_wall_sliding = true
 					wallside = "left"
+					if wallslide_time > wallslide_spark_time:
+						spawnSparks(false)
 				else:
 					is_wall_sliding = false
-					wallside = "none"
 		else:
 			is_wall_sliding = false
-			wallside = "none"
 	else:
 		is_wall_sliding = false
-		wallside = "none"
 	
 	if is_wall_sliding:
 		velocity.y += (wallslide_gravity * delta)
 		velocity.y = min(velocity.y, wallslide_gravity)
+		if velocity.y > 0:
+			wallslide_time += 1 * delta
+	else:
+		wallside = "none"
+		wallslide_time = 0
 
 	move_and_slide()
 
-func spawnSparks():
-	var sparkInstance = sparkPrefab.instantiate()
-	get_parent().add_child(sparkInstance)
-	sparkInstance.emitting = true
-	sparkInstance.global_position = self.global_position
+func spawnSparks(left: bool):
+	var effectInstance = sparkPrefab.instantiate()
+	get_parent().add_child(effectInstance)
+	effectInstance.emitting = true
+	if left == true:
+		effectInstance.global_position = self.global_position - Vector2(-30, 30)
+	if left == false:
+		effectInstance.global_position = self.global_position - Vector2(30, 30)

@@ -28,6 +28,6 @@ gravity = Vector3(0, 98, 0)
 emitting = false
 amount = 2
 texture = SubResource("GradientTexture2D_ohkdu")
-lifetime = 0.5
+lifetime = 0.25
 one_shot = true
 process_material = SubResource("ParticleProcessMaterial_eqt7n")
