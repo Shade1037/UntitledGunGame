@@ -137,3 +137,11 @@ position = Vector2(1056, 544)
 
 [node name="Node2D10" parent="Map" instance=ExtResource("2_8od7v")]
 position = Vector2(1120, 544)
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.38928655, 0.38928664, 0.38928658, 1)
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+rotation = -0.6981317
+energy = 0.2
+shadow_enabled = true

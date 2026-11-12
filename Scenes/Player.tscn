@@ -1,13 +1,49 @@
-[gd_scene load_steps=4 format=3 uid="uid://dbiblfx4sd2l2"]
+[gd_scene load_steps=11 format=3 uid="uid://dbiblfx4sd2l2"]
 
 [ext_resource type="Script" uid="uid://puvuw1x3f5wa" path="res://Scripts/player.gd" id="1_kyqiw"]
 [ext_resource type="Texture2D" uid="uid://cj63q2uky4qqk" path="res://icon.svg" id="1_rpqav"]
+[ext_resource type="PackedScene" uid="uid://b0wpcis31fpwd" path="res://Assets/Particles/spark.tscn" id="2_5ixxa"]
+[ext_resource type="Script" uid="uid://nqb045mi64h6" path="res://Scripts/camera.gd" id="3_dewec"]
+[ext_resource type="FontFile" uid="uid://rgn7ywi4iwax" path="res://Assets/Fonts/VCR.ttf" id="3_gntrk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_44u30"]
 size = Vector2(62, 62)
 
-[node name="CharacterBody2D" type="CharacterBody2D"]
+[sub_resource type="Gradient" id="Gradient_5ixxa"]
+offsets = PackedFloat32Array(0, 0.5976331)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_nn08x"]
+gradient = SubResource("Gradient_5ixxa")
+width = 300
+height = 300
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 1)
+
+[sub_resource type="Theme" id="Theme_dewec"]
+default_font = ExtResource("3_gntrk")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gntrk"]
+bg_color = Color(0.21394002, 0.7248373, 0, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+corner_detail = 6
+
+[node name="CharacterBody2D" type="CharacterBody2D" node_paths=PackedStringArray("Camera", "PlayerUI", "PlayerStats", "DamageLayer", "HurtLayer", "DashCounter", "DashBar", "HealthCounter", "HealthBar")]
 script = ExtResource("1_kyqiw")
+sparkPrefab = ExtResource("2_5ixxa")
+Camera = NodePath("Camera2D")
+PlayerUI = NodePath("PlayerUI")
+PlayerStats = NodePath("PlayerUI/PlayerStats")
+DamageLayer = NodePath("Camera2D/DamageLayer")
+HurtLayer = NodePath("Camera2D/HurtLayer")
+DashCounter = NodePath("PlayerUI/PlayerStats/DashCounter")
+DashBar = NodePath("PlayerUI/PlayerStats/DashBar")
+HealthCounter = NodePath("PlayerUI/PlayerStats/HealthCounter")
+HealthBar = NodePath("PlayerUI/PlayerStats/HealthBar")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_44u30")
@@ -16,5 +52,84 @@ shape = SubResource("RectangleShape2D_44u30")
 scale = Vector2(0.5, 0.49999997)
 texture = ExtResource("1_rpqav")
 
+[node name="PointLight2D" type="PointLight2D" parent="."]
+energy = 0.25
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_nn08x")
+
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(8, 0)
 position_smoothing_enabled = true
+script = ExtResource("3_dewec")
+target = NodePath("..")
+
+[node name="Background" type="ColorRect" parent="Camera2D"]
+z_index = -3
+offset_left = -1016.0
+offset_top = -600.0
+offset_right = 1010.6665
+offset_bottom = 616.0
+color = Color(0.70380783, 0.70380783, 0.70380783, 1)
+
+[node name="DamageLayer" type="ColorRect" parent="Camera2D"]
+z_index = 100
+offset_left = -1016.0
+offset_top = -600.0
+offset_right = 1010.6665
+offset_bottom = 616.0
+color = Color(1, 0, 0, 0)
+
+[node name="HurtLayer" type="ColorRect" parent="Camera2D"]
+z_index = 100
+offset_left = -1016.0
+offset_top = -600.0
+offset_right = 1010.6665
+offset_bottom = 616.0
+color = Color(0.43137255, 0, 0, 0)
+
+[node name="PlayerUI" type="CanvasLayer" parent="."]
+
+[node name="PlayerStats" type="Control" parent="PlayerUI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_dewec")
+
+[node name="DashCounter" type="Label" parent="PlayerUI/PlayerStats"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 580.0
+offset_right = 112.0
+offset_bottom = 596.0
+theme_override_font_sizes/font_size = 14
+text = "DASHES: 3"
+
+[node name="HealthCounter" type="Label" parent="PlayerUI/PlayerStats"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 608.0
+offset_right = 112.0
+offset_bottom = 624.0
+text = "HEALTH: 50%"
+
+[node name="DashBar" type="ProgressBar" parent="PlayerUI/PlayerStats"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 596.0
+offset_right = 104.0
+offset_bottom = 600.0
+value = 50.0
+show_percentage = false
+
+[node name="HealthBar" type="ProgressBar" parent="PlayerUI/PlayerStats"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 628.0
+offset_right = 184.0
+offset_bottom = 640.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_gntrk")
+value = 50.0
+show_percentage = false

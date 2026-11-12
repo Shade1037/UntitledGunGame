@@ -1,14 +1,20 @@
-[gd_scene format=3 uid="uid://dvtu4lb6sf6kh"]
+[gd_scene load_steps=4 format=3 uid="uid://dvtu4lb6sf6kh"]
 
 [ext_resource type="Texture2D" uid="uid://calkma8erwp65" path="res://Images/Player/rect.tres" id="1_ejx3s"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_44u30"]
 size = Vector2(64, 64)
 
-[node name="Node2D" type="StaticBody2D" unique_id=2026726895]
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ejx3s"]
+polygon = PackedVector2Array(-32, -32, -32, 32, 32, 32, 32, -32)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1075711513]
+[node name="Node2D" type="StaticBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_44u30")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=510808270]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_ejx3s")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_ejx3s")
