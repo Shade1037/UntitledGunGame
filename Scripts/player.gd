@@ -90,7 +90,8 @@ func _process(delta: float) -> void:
 		
 		# Reset
 		if Input.is_action_just_pressed("restart"):
-			get_tree().reload_current_scene()
+			spawnBlood()
+			queue_free()
 		
 		# Stats
 		var currenthealth = round((health/maxhealth) * 100)

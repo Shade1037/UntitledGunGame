@@ -34,7 +34,6 @@ corner_detail = 6
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=533624553 node_paths=PackedStringArray("jumpSound", "dashSound", "slideSound", "landSound", "slamSound", "hurtSound", "healSound", "Camera", "Sprite", "PlayerUI", "PlayerStats", "DamageLayer", "HurtLayer", "DashCounter", "DashBar", "HealthCounter", "HealthBar")]
 script = ExtResource("1_kyqiw")
-slam_velocity = null
 jumpSound = NodePath("Audio/jumpSound")
 dashSound = NodePath("Audio/dashSound")
 slideSound = NodePath("Audio/slideSound")
