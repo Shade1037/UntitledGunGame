@@ -23,6 +23,10 @@ var wallside: String = "none"
 var wallslide_time: float = 0.0;
 var wallslide_spark_time: float = 0.25;
 
+@export_category("Movement (Quickslam)")
+@export var slam_velocity: float = 1200
+var is_quickslamming: bool = false
+
 @export_category("Movement (Dashing)")
 @export var dash_velocity: float = 800.0
 @export var dash_upwards_velocity: float = -100.0
@@ -33,13 +37,26 @@ var dashchargetime: float = 0.75
 
 var last_dir: String = "right"
 
+# Audio
+@export_category("Audio")
+@export var jumpSound: AudioStreamPlayer2D
+@export var dashSound: AudioStreamPlayer2D
+@export var slideSound: AudioStreamPlayer2D
+@export var landSound: AudioStreamPlayer2D
+@export var slamSound: AudioStreamPlayer2D
+@export var hurtSound: AudioStreamPlayer2D
+@export var healSound: AudioStreamPlayer2D
+
 # Effects
 @export_category("Effects")
-@export var sparkPrefab: Resource
+@export var sparkPrefab: PackedScene
+@export var bloodPrefab: PackedScene
+@export var slamPrefab: PackedScene
 
 # Nodes
 @export_category("Nodes")
 @export var Camera: Camera2D
+@export var Sprite: Sprite2D
 
 # UI
 @export_category("UI")
@@ -55,49 +72,61 @@ var last_dir: String = "right"
 @export var HealthCounter: Label
 @export var HealthBar: ProgressBar
 
+var was_on_floor: bool = false
+
 func _ready() -> void:
 	if not Engine.is_editor_hint():
 		# Set up UI
 		DashBar.max_value = dashchargetime
 		HealthBar.max_value = maxhealth
+		slideSound.play()
+		slideSound.stream_paused = true
 
 func _process(delta: float) -> void:
 	if not Engine.is_editor_hint():
-		# Testing
-		if Input.is_action_just_pressed("button"):
-			takeDamage(10)
-		
 		# Exit
 		if Input.is_action_just_pressed("exit"):
 			get_tree().quit()
 		
+		# Reset
+		if Input.is_action_just_pressed("restart"):
+			get_tree().reload_current_scene()
+		
 		# Stats
 		var currenthealth = round((health/maxhealth) * 100)
-		var roundedhealth = move_toward(HealthBar.value, currenthealth, 1)
+		var lerpedhealth = move_toward(HealthBar.value, currenthealth, 0.75)
+		var roundedhealth = round(lerpedhealth)
 		
 		DashCounter.text = "DASHES: " + str(dashes)
 		DashBar.value = dashtimer
-		HealthCounter.text = "HEALTH: " + str(roundedhealth) + "%"
+		HealthCounter.text = "HEALTH: " + str(int(roundedhealth)) + "%"
 		HealthBar.value = roundedhealth
-		
+
 		# Damage Effects
-		if DamageLayer.color.a > 0:
-			DamageLayer.color.a = move_toward(DamageLayer.color.a, 0, 0.01)
-		if DamageLayer.color.a > 1:
-			DamageLayer.color.a = 1
-			
+		if Sprite.modulate != Color.WHITE:
+			Sprite.modulate = Sprite.modulate.lerp(Color.WHITE, 0.1)
+
 		# Low Health Effects
-		if health < (maxhealth / 2):
-			HurtLayer.color.a = 0.2
-			Camera.constShake(0.01)
-		
-		if health <= (maxhealth / 4):
-			HurtLayer.color.a = 0.3
-			Camera.constShake(0.015)
-			
-		if health <= (maxhealth / 10):
-			HurtLayer.color.a = 0.5
+		if health <= (maxhealth / 100):
+			HurtLayer.color.a = move_toward(HurtLayer.color.a, 0.65, 0.01)
 			Camera.constShake(0.025)
+		elif health <= (maxhealth / 10):
+			HurtLayer.color.a = move_toward(HurtLayer.color.a, 0.4, 0.01)
+			Camera.constShake(0.025)
+		elif health < (maxhealth / 4):
+			HurtLayer.color.a = move_toward(HurtLayer.color.a, 0.25, 0.01)
+			Camera.constShake(0.015)
+		elif health < (maxhealth / 2):
+			HurtLayer.color.a = move_toward(HurtLayer.color.a, 0.1, 0.01)
+			Camera.constShake(0.01)
+		else:
+			HurtLayer.color.a = move_toward(HurtLayer.color.a, 0, 0.01)
+			
+		# Health
+		if health > maxhealth:
+			health = maxhealth
+		if health <= 0:
+			get_tree().reload_current_scene()
 
 func _physics_process(delta: float) -> void:
 	if not Engine.is_editor_hint():
@@ -105,7 +134,7 @@ func _physics_process(delta: float) -> void:
 		if not is_on_floor():
 			velocity += get_gravity() * delta
 	
-		# Reset jumps on contact with floor
+		# Reset jumps on contact with floor 
 		if is_on_floor():
 			jumps = maxjumps
 	
@@ -113,6 +142,14 @@ func _physics_process(delta: float) -> void:
 		if Input.is_action_just_pressed("jump") and jumps > 0 and is_on_floor():
 			jumps -= 1
 			velocity.y = jump_velocity
+			jumpSound.play()
+			
+		if Input.is_action_just_pressed("quickslam") and not is_on_floor() and not is_quickslamming:
+			if velocity.y < 0:
+				velocity.y = slam_velocity
+			else:
+				velocity.y += slam_velocity
+			is_quickslamming = true
 		
 		# Movement Tracking
 		if Input.is_action_pressed("move_right"):
@@ -135,6 +172,7 @@ func _physics_process(delta: float) -> void:
 			else:
 				velocity.x = -dash_velocity
 			velocity.y = dash_upwards_velocity
+			dashSound.play()
 			
 		# Movement
 		var direction := Input.get_axis("move_left", "move_right")
@@ -149,15 +187,18 @@ func _physics_process(delta: float) -> void:
 			if Input.is_action_pressed("move_right"):
 				for i in range(get_slide_collision_count()):
 					var collision := get_slide_collision(i)
-					var normal := collision.get_normal()
+					var normal := collision.get_normal() 
 					if normal.x < 0:
 						if Input.is_action_just_pressed("jump"):
 							velocity.y = jump_velocity
 							velocity.x = -walljump_pushback
+							jumpSound.play()
+							is_quickslamming = false
 						is_wall_sliding = true
 						wallside = "right"
 						if wallslide_time > wallslide_spark_time:
 							spawnSparks(true)
+							slideSound.stream_paused = false
 					else:
 						is_wall_sliding = false
 						wallside = "none"
@@ -171,10 +212,13 @@ func _physics_process(delta: float) -> void:
 						if Input.is_action_just_pressed("jump"):
 							velocity.y = jump_velocity
 							velocity.x = walljump_pushback
+							jumpSound.play()
+							is_quickslamming = false
 						is_wall_sliding = true
 						wallside = "left"
 						if wallslide_time > wallslide_spark_time:
 							spawnSparks(false)
+							slideSound.stream_paused = false
 					else:
 						is_wall_sliding = false
 			else:
@@ -182,30 +226,67 @@ func _physics_process(delta: float) -> void:
 		else:
 			is_wall_sliding = false
 		
+		if is_quickslamming:
+			velocity.x = 0
+		
 		if is_wall_sliding:
-			velocity.y += (wallslide_gravity * delta)
-			velocity.y = min(velocity.y, wallslide_gravity)
-			if velocity.y > 0:
-				wallslide_time += 1 * delta
+			if not is_quickslamming:
+				velocity.y += (wallslide_gravity * delta)
+				velocity.y = min(velocity.y, wallslide_gravity)
+				if velocity.y > 0:
+					wallslide_time += 1 * delta
 		else:
 			wallside = "none"
 			wallslide_time = 0
+			slideSound.stream_paused = true
 	
 		move_and_slide()
-
-func spawnSparks(left: bool):
-	var effectInstance = sparkPrefab.instantiate()
-	get_parent().add_child(effectInstance)
-	effectInstance.emitting = true
-	if left == true:
-		effectInstance.global_position = self.global_position - Vector2(-30, 30)
-	if left == false:
-		effectInstance.global_position = self.global_position - Vector2(30, 30)
+		
+		# Landing
+		if not was_on_floor and is_on_floor():
+			if is_quickslamming:
+				slamSound.play()
+				is_quickslamming = false
+				spawnSlamParticles()
+			else:
+				landSound.play()
+			
+		was_on_floor = is_on_floor()
 
 func takeDamage(amount: float):
 	health -= amount
 	cameraShake(amount / 50)
-	DamageLayer.color.a += amount / 50
+	Sprite.modulate = Color.RED
+	hurtSound.play()
+
+func heal(amount: float):
+	health += amount
+	Sprite.modulate = Color.GREEN
+	healSound.play()
 
 func cameraShake(amount: float):
 	Camera.add_trauma(amount)
+
+func spawnSparks(left: bool):
+	if sparkPrefab:
+		var effectInstance = sparkPrefab.instantiate()
+		if left == true:
+			effectInstance.global_position = self.global_position - Vector2(-30, 30)
+		if left == false:
+			effectInstance.global_position = self.global_position - Vector2(30, 30)
+		get_parent().add_child(effectInstance)
+		effectInstance.emitting = true
+		
+func spawnBlood():
+	if bloodPrefab:
+		var effectInstance = bloodPrefab.instantiate()
+		effectInstance.global_position = self.global_position
+		get_parent().add_child(effectInstance)
+		effectInstance.emitting = true
+
+func spawnSlamParticles():
+	if slamPrefab:
+		var effectInstance = slamPrefab.instantiate()
+		effectInstance.global_position = self.global_position - Vector2(0, -56)
+		get_parent().add_child(effectInstance)
+		effectInstance.emitting = true

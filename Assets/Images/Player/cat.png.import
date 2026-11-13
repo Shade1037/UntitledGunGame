@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://calt4c2ucmgry"
-path="res://.godot/imported/image-removebg-preview.png-4f8d1543250002addbc7f24ab7e679e7.ctex"
+uid="uid://bhbgeqibhicvg"
+path="res://.godot/imported/cat.png-35b2650f61a5c53dd2b6d75ead3f4baa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Images/Weapons/image-removebg-preview.png"
-dest_files=["res://.godot/imported/image-removebg-preview.png-4f8d1543250002addbc7f24ab7e679e7.ctex"]
+source_file="res://Assets/Images/Player/cat.png"
+dest_files=["res://.godot/imported/cat.png-35b2650f61a5c53dd2b6d75ead3f4baa.ctex"]
 
 [params]
 

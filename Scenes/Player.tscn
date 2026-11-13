@@ -1,25 +1,25 @@
-[gd_scene load_steps=11 format=3 uid="uid://dbiblfx4sd2l2"]
+[gd_scene format=3 uid="uid://dbiblfx4sd2l2"]
 
 [ext_resource type="Script" uid="uid://puvuw1x3f5wa" path="res://Scripts/player.gd" id="1_kyqiw"]
-[ext_resource type="Texture2D" uid="uid://cj63q2uky4qqk" path="res://icon.svg" id="1_rpqav"]
 [ext_resource type="PackedScene" uid="uid://b0wpcis31fpwd" path="res://Assets/Particles/spark.tscn" id="2_5ixxa"]
+[ext_resource type="AudioStream" uid="uid://d1wgtcjgcl4lq" path="res://Assets/Sounds/jump.mp3" id="2_yoq75"]
+[ext_resource type="PackedScene" uid="uid://b6f5mujfi1ukp" path="res://Assets/Particles/blood_spray.tscn" id="3_1e7my"]
 [ext_resource type="Script" uid="uid://nqb045mi64h6" path="res://Scripts/camera.gd" id="3_dewec"]
+[ext_resource type="Texture2D" uid="uid://bhbgeqibhicvg" path="res://Assets/Images/Player/cat.png" id="3_glx4g"]
 [ext_resource type="FontFile" uid="uid://rgn7ywi4iwax" path="res://Assets/Fonts/VCR.ttf" id="3_gntrk"]
+[ext_resource type="AudioStream" uid="uid://iicdh5ajbsdv" path="res://Assets/Sounds/dash.mp3" id="3_ksbbd"]
+[ext_resource type="PackedScene" uid="uid://ckwlys1x16kd" path="res://Assets/Particles/slam.tscn" id="4_arntx"]
+[ext_resource type="AudioStream" uid="uid://bmpl2eh82rt0e" path="res://Assets/Sounds/land.mp3" id="4_glx4g"]
+[ext_resource type="AudioStream" uid="uid://bjmblt2joaxt1" path="res://Assets/Sounds/slam.mp3" id="5_miouo"]
+[ext_resource type="FontFile" uid="uid://w5hy2tbwmbmv" path="res://Assets/Fonts/comic.ttf" id="6_glx4g"]
+[ext_resource type="AudioStream" uid="uid://bbdhhy3210jsn" path="res://Assets/Sounds/spawn.mp3" id="6_ksbbd"]
+[ext_resource type="AudioStream" uid="uid://bwom2r5i8qv4s" path="res://Assets/Sounds/slide.mp3" id="6_o3h8g"]
+[ext_resource type="AudioStream" uid="uid://clu5qwvlugpks" path="res://Assets/Sounds/fall.mp3" id="10_lslt6"]
+[ext_resource type="AudioStream" uid="uid://c7hsexm2tw75x" path="res://Assets/Sounds/damage.mp3" id="13_miouo"]
+[ext_resource type="AudioStream" uid="uid://d1kc4dmhf38xx" path="res://Assets/Sounds/heal.mp3" id="14_o3h8g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_44u30"]
-size = Vector2(62, 62)
-
-[sub_resource type="Gradient" id="Gradient_5ixxa"]
-offsets = PackedFloat32Array(0, 0.5976331)
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_nn08x"]
-gradient = SubResource("Gradient_5ixxa")
-width = 300
-height = 300
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(1, 1)
+size = Vector2(63, 63)
 
 [sub_resource type="Theme" id="Theme_dewec"]
 default_font = ExtResource("3_gntrk")
@@ -32,10 +32,21 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 corner_detail = 6
 
-[node name="CharacterBody2D" type="CharacterBody2D" node_paths=PackedStringArray("Camera", "PlayerUI", "PlayerStats", "DamageLayer", "HurtLayer", "DashCounter", "DashBar", "HealthCounter", "HealthBar")]
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=533624553 node_paths=PackedStringArray("jumpSound", "dashSound", "slideSound", "landSound", "slamSound", "hurtSound", "healSound", "Camera", "Sprite", "PlayerUI", "PlayerStats", "DamageLayer", "HurtLayer", "DashCounter", "DashBar", "HealthCounter", "HealthBar")]
 script = ExtResource("1_kyqiw")
+slam_velocity = null
+jumpSound = NodePath("Audio/jumpSound")
+dashSound = NodePath("Audio/dashSound")
+slideSound = NodePath("Audio/slideSound")
+landSound = NodePath("Audio/landSound")
+slamSound = NodePath("Audio/slamSound")
+hurtSound = NodePath("Audio/hurtSound")
+healSound = NodePath("Audio/healSound")
 sparkPrefab = ExtResource("2_5ixxa")
+bloodPrefab = ExtResource("3_1e7my")
+slamPrefab = ExtResource("4_arntx")
 Camera = NodePath("Camera2D")
+Sprite = NodePath("Icon")
 PlayerUI = NodePath("PlayerUI")
 PlayerStats = NodePath("PlayerUI/PlayerStats")
 DamageLayer = NodePath("Camera2D/DamageLayer")
@@ -45,51 +56,49 @@ DashBar = NodePath("PlayerUI/PlayerStats/DashBar")
 HealthCounter = NodePath("PlayerUI/PlayerStats/HealthCounter")
 HealthBar = NodePath("PlayerUI/PlayerStats/HealthBar")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1020022842]
 shape = SubResource("RectangleShape2D_44u30")
 
-[node name="Icon" type="Sprite2D" parent="."]
-scale = Vector2(0.5, 0.49999997)
-texture = ExtResource("1_rpqav")
+[node name="Icon" type="Sprite2D" parent="." unique_id=509371952]
+position = Vector2(0, 1.9073486e-06)
+scale = Vector2(0.18991098, 0.19937697)
+texture = ExtResource("3_glx4g")
 
-[node name="PointLight2D" type="PointLight2D" parent="."]
-energy = 0.25
-shadow_enabled = true
-texture = SubResource("GradientTexture2D_nn08x")
-
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(8, 0)
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1211823659]
 position_smoothing_enabled = true
 script = ExtResource("3_dewec")
 target = NodePath("..")
 
-[node name="Background" type="ColorRect" parent="Camera2D"]
+[node name="Background" type="ColorRect" parent="Camera2D" unique_id=1412564871]
 z_index = -3
-offset_left = -1016.0
-offset_top = -600.0
-offset_right = 1010.6665
-offset_bottom = 616.0
-color = Color(0.70380783, 0.70380783, 0.70380783, 1)
+offset_left = -3455.0
+offset_top = -2104.0
+offset_right = -1428.3335
+offset_bottom = -888.0
+scale = Vector2(3.479998, 3.5199995)
+color = Color(0.74977994, 0.7497801, 0.7497796, 1)
 
-[node name="DamageLayer" type="ColorRect" parent="Camera2D"]
+[node name="DamageLayer" type="ColorRect" parent="Camera2D" unique_id=1512690237]
 z_index = 100
-offset_left = -1016.0
-offset_top = -600.0
-offset_right = 1010.6665
-offset_bottom = 616.0
+offset_left = -3455.0
+offset_top = -2104.0
+offset_right = -1428.3335
+offset_bottom = -888.0
+scale = Vector2(3.479998, 3.5199995)
 color = Color(1, 0, 0, 0)
 
-[node name="HurtLayer" type="ColorRect" parent="Camera2D"]
+[node name="HurtLayer" type="ColorRect" parent="Camera2D" unique_id=149152568]
 z_index = 100
-offset_left = -1016.0
-offset_top = -600.0
-offset_right = 1010.6665
-offset_bottom = 616.0
+offset_left = -3456.0
+offset_top = -2103.0
+offset_right = -1429.3335
+offset_bottom = -887.0
+scale = Vector2(3.479998, 3.5199995)
 color = Color(0.43137255, 0, 0, 0)
 
-[node name="PlayerUI" type="CanvasLayer" parent="."]
+[node name="PlayerUI" type="CanvasLayer" parent="." unique_id=551824192]
 
-[node name="PlayerStats" type="Control" parent="PlayerUI"]
+[node name="PlayerStats" type="Control" parent="PlayerUI" unique_id=307728306]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -98,38 +107,75 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_dewec")
 
-[node name="DashCounter" type="Label" parent="PlayerUI/PlayerStats"]
+[node name="DashCounter" type="Label" parent="PlayerUI/PlayerStats" unique_id=1904685600]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 580.0
 offset_right = 112.0
 offset_bottom = 596.0
+theme_override_fonts/font = ExtResource("6_glx4g")
 theme_override_font_sizes/font_size = 14
 text = "DASHES: 3"
 
-[node name="HealthCounter" type="Label" parent="PlayerUI/PlayerStats"]
+[node name="HealthCounter" type="Label" parent="PlayerUI/PlayerStats" unique_id=280238721]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 608.0
 offset_right = 112.0
 offset_bottom = 624.0
+theme_override_fonts/font = ExtResource("6_glx4g")
 text = "HEALTH: 50%"
 
-[node name="DashBar" type="ProgressBar" parent="PlayerUI/PlayerStats"]
+[node name="DashBar" type="ProgressBar" parent="PlayerUI/PlayerStats" unique_id=1126523857]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 596.0
 offset_right = 104.0
 offset_bottom = 600.0
+theme_override_fonts/font = ExtResource("6_glx4g")
 value = 50.0
 show_percentage = false
 
-[node name="HealthBar" type="ProgressBar" parent="PlayerUI/PlayerStats"]
+[node name="HealthBar" type="ProgressBar" parent="PlayerUI/PlayerStats" unique_id=1959730059]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 628.0
 offset_right = 184.0
 offset_bottom = 640.0
+theme_override_fonts/font = ExtResource("6_glx4g")
 theme_override_styles/fill = SubResource("StyleBoxFlat_gntrk")
-value = 50.0
 show_percentage = false
+
+[node name="Audio" type="Node" parent="." unique_id=43779464]
+
+[node name="spawnSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=132405590]
+stream = ExtResource("6_ksbbd")
+volume_db = 2.0
+autoplay = true
+
+[node name="fallSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=2096570253]
+stream = ExtResource("10_lslt6")
+volume_db = 2.0
+
+[node name="jumpSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=352603111]
+stream = ExtResource("2_yoq75")
+volume_db = 2.0
+
+[node name="dashSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=1679946292]
+stream = ExtResource("3_ksbbd")
+volume_db = 12.0
+
+[node name="slideSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=417726894]
+stream = ExtResource("6_o3h8g")
+
+[node name="landSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=177586372]
+stream = ExtResource("4_glx4g")
+
+[node name="slamSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=416769579]
+stream = ExtResource("5_miouo")
+
+[node name="hurtSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=816871455]
+stream = ExtResource("13_miouo")
+
+[node name="healSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=368275599]
+stream = ExtResource("14_o3h8g")
