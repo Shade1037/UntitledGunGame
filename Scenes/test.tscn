@@ -5,9 +5,6 @@
 
 [node name="Node2D" type="Node2D" unique_id=548826707]
 
-[node name="player" parent="." unique_id=1050797671 instance=ExtResource("2_qc4db")]
-position = Vector2(160, 352)
-
 [node name="Map" type="Node" parent="." unique_id=545348808]
 
 [node name="Node2D" parent="Map" unique_id=247531530 instance=ExtResource("2_8od7v")]
@@ -84,6 +81,12 @@ position = Vector2(-96, 96)
 [node name="Node2D27" parent="Map" unique_id=1643809344 instance=ExtResource("2_8od7v")]
 position = Vector2(-160, -96)
 
+[node name="Node2D62" parent="Map" unique_id=1453064813 instance=ExtResource("2_8od7v")]
+position = Vector2(-224, -96)
+
+[node name="Node2D63" parent="Map" unique_id=1398016722 instance=ExtResource("2_8od7v")]
+position = Vector2(-224, 96)
+
 [node name="Node2D30" parent="Map" unique_id=905713877 instance=ExtResource("2_8od7v")]
 position = Vector2(-160, -160)
 
@@ -97,13 +100,70 @@ position = Vector2(-160, -288)
 position = Vector2(-160, -352)
 
 [node name="Node2D34" parent="Map" unique_id=429016520 instance=ExtResource("2_8od7v")]
-position = Vector2(-160, -416)
+position = Vector2(-160, -480)
+
+[node name="Node2D42" parent="Map" unique_id=834844909 instance=ExtResource("2_8od7v")]
+position = Vector2(-160, -1056)
+
+[node name="Node2D43" parent="Map" unique_id=1863091238 instance=ExtResource("2_8od7v")]
+position = Vector2(-160, -672)
+
+[node name="Node2D58" parent="Map" unique_id=737919015 instance=ExtResource("2_8od7v")]
+position = Vector2(-224, -672)
+
+[node name="Node2D59" parent="Map" unique_id=187452364 instance=ExtResource("2_8od7v")]
+position = Vector2(96, -672)
+
+[node name="Node2D60" parent="Map" unique_id=721675508 instance=ExtResource("2_8od7v")]
+position = Vector2(96, -1056)
+
+[node name="Node2D61" parent="Map" unique_id=1881389973 instance=ExtResource("2_8od7v")]
+position = Vector2(-224, -1056)
+
+[node name="Node2D44" parent="Map" unique_id=701081308 instance=ExtResource("2_8od7v")]
+position = Vector2(-160, -736)
+
+[node name="Node2D45" parent="Map" unique_id=125632784 instance=ExtResource("2_8od7v")]
+position = Vector2(-160, -800)
+
+[node name="Node2D46" parent="Map" unique_id=78508390 instance=ExtResource("2_8od7v")]
+position = Vector2(-160, -864)
+
+[node name="Node2D47" parent="Map" unique_id=1927568626 instance=ExtResource("2_8od7v")]
+position = Vector2(-160, -928)
+
+[node name="Node2D54" parent="Map" unique_id=1566755592 instance=ExtResource("2_8od7v")]
+position = Vector2(-160, -992)
+
+[node name="Node2D57" parent="Map" unique_id=1842230068 instance=ExtResource("2_8od7v")]
+position = Vector2(32, -992)
+
+[node name="Node2D48" parent="Map" unique_id=350174984 instance=ExtResource("2_8od7v")]
+position = Vector2(32, -1056)
+
+[node name="Node2D49" parent="Map" unique_id=1155361836 instance=ExtResource("2_8od7v")]
+position = Vector2(32, -672)
+
+[node name="Node2D50" parent="Map" unique_id=1848709408 instance=ExtResource("2_8od7v")]
+position = Vector2(32, -736)
+
+[node name="Node2D51" parent="Map" unique_id=1675406711 instance=ExtResource("2_8od7v")]
+position = Vector2(32, -800)
+
+[node name="Node2D52" parent="Map" unique_id=1865026200 instance=ExtResource("2_8od7v")]
+position = Vector2(32, -864)
+
+[node name="Node2D53" parent="Map" unique_id=135523309 instance=ExtResource("2_8od7v")]
+position = Vector2(32, -928)
 
 [node name="Node2D41" parent="Map" unique_id=1702093898 instance=ExtResource("2_8od7v")]
-position = Vector2(-224, -416)
+position = Vector2(-224, -480)
 
 [node name="Node2D29" parent="Map" unique_id=708269604 instance=ExtResource("2_8od7v")]
 position = Vector2(32, -96)
+
+[node name="Node2D64" parent="Map" unique_id=1230388256 instance=ExtResource("2_8od7v")]
+position = Vector2(96, -96)
 
 [node name="Node2D35" parent="Map" unique_id=706112287 instance=ExtResource("2_8od7v")]
 position = Vector2(32, -160)
@@ -117,11 +177,17 @@ position = Vector2(32, -288)
 [node name="Node2D38" parent="Map" unique_id=1059440298 instance=ExtResource("2_8od7v")]
 position = Vector2(32, -352)
 
-[node name="Node2D39" parent="Map" unique_id=2113659698 instance=ExtResource("2_8od7v")]
+[node name="Node2D55" parent="Map" unique_id=1535262245 instance=ExtResource("2_8od7v")]
 position = Vector2(32, -416)
 
+[node name="Node2D56" parent="Map" unique_id=309629595 instance=ExtResource("2_8od7v")]
+position = Vector2(-160, -416)
+
+[node name="Node2D39" parent="Map" unique_id=2113659698 instance=ExtResource("2_8od7v")]
+position = Vector2(32, -480)
+
 [node name="Node2D40" parent="Map" unique_id=971434560 instance=ExtResource("2_8od7v")]
-position = Vector2(96, -416)
+position = Vector2(96, -480)
 
 [node name="Node2D28" parent="Map" unique_id=623859852 instance=ExtResource("2_8od7v")]
 position = Vector2(-160, 96)
@@ -137,3 +203,7 @@ position = Vector2(1056, 544)
 
 [node name="Node2D10" parent="Map" unique_id=1967951331 instance=ExtResource("2_8od7v")]
 position = Vector2(1120, 544)
+
+[node name="CharacterBody2D" parent="." unique_id=533624553 instance=ExtResource("2_qc4db")]
+position = Vector2(160, 352)
+jump_velocity = -450.0

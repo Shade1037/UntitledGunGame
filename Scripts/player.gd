@@ -12,7 +12,7 @@ var health: float = maxhealth
 @export var friction: float = 1000.0
 
 @export_category("Movement (Jumping)")
-@export var jump_velocity: float = -400.0
+@export var jump_velocity: float = -500.0
 @export var wallslide_gravity: float = 150.0
 @export var maxjumps: int = 1
 var jumps: int = maxjumps
