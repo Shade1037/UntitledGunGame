@@ -93,6 +93,12 @@ func _process(delta: float) -> void:
 			spawnBlood()
 			queue_free()
 		
+		$gun.look_at(get_global_mouse_position())
+		if get_global_mouse_position().x < position.x:
+			$gun.flip_v = true
+		else:
+			$gun.flip_v = false
+		
 		# Stats
 		var currenthealth = round((health/maxhealth) * 100)
 		var lerpedhealth = move_toward(HealthBar.value, currenthealth, 0.75)
@@ -145,12 +151,12 @@ func _physics_process(delta: float) -> void:
 			velocity.y = jump_velocity
 			jumpSound.play()
 			
-		if Input.is_action_just_pressed("quickslam") and not is_on_floor() and not is_quickslamming:
-			if velocity.y < 0:
-				velocity.y = slam_velocity
-			else:
-				velocity.y += slam_velocity
-			is_quickslamming = true
+#		if Input.is_action_just_pressed("quickslam") and not is_on_floor() and not is_quickslamming:
+#			if velocity.y < 0:
+#				velocity.y = slam_velocity
+#			else:
+#				velocity.y += slam_velocity
+#			is_quickslamming = true
 		
 		# Movement Tracking
 		if Input.is_action_pressed("move_right"):

@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dih25hkfvq4lt"]
+
+[ext_resource type="Texture2D" uid="uid://cs1wbhi3sw6e5" path="res://Assets/Images/Weapons/pistol_shell.png" id="1_ukhj2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_44u30"]
+size = Vector2(20, 5)
+
+[node name="RigidBody2D" type="RigidBody2D" unique_id=27185548]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=31068715]
+position = Vector2(0.07404047, 0.07404226)
+rotation = 1.5707964
+scale = Vector2(0.06628062, 0.06628062)
+texture = ExtResource("1_ukhj2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=921118865]
+shape = SubResource("RectangleShape2D_44u30")

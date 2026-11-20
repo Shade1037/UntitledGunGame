@@ -17,6 +17,7 @@
 [ext_resource type="AudioStream" uid="uid://clu5qwvlugpks" path="res://Assets/Sounds/fall.mp3" id="10_lslt6"]
 [ext_resource type="AudioStream" uid="uid://c7hsexm2tw75x" path="res://Assets/Sounds/damage.mp3" id="13_miouo"]
 [ext_resource type="AudioStream" uid="uid://d1kc4dmhf38xx" path="res://Assets/Sounds/heal.mp3" id="14_o3h8g"]
+[ext_resource type="Texture2D" uid="uid://7kxvch2ufs68" path="res://Assets/Images/Weapons/pistol.png" id="18_ulo2v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_44u30"]
 size = Vector2(63, 63)
@@ -59,7 +60,7 @@ HealthBar = NodePath("PlayerUI/PlayerStats/HealthBar")
 shape = SubResource("RectangleShape2D_44u30")
 
 [node name="Icon" type="Sprite2D" parent="." unique_id=509371952]
-position = Vector2(0, 1.9073486e-06)
+position = Vector2(0, 4.9495998e-06)
 scale = Vector2(0.18991098, 0.19937697)
 texture = ExtResource("3_glx4g")
 
@@ -88,10 +89,10 @@ color = Color(1, 0, 0, 0)
 
 [node name="HurtLayer" type="ColorRect" parent="Camera2D" unique_id=149152568]
 z_index = 100
-offset_left = -3456.0
-offset_top = -2103.0
-offset_right = -1429.3335
-offset_bottom = -887.0
+offset_left = -3464.0
+offset_top = -2104.0002
+offset_right = -1437.3335
+offset_bottom = -888.00024
 scale = Vector2(3.479998, 3.5199995)
 color = Color(0.43137255, 0, 0, 0)
 
@@ -178,3 +179,9 @@ stream = ExtResource("13_miouo")
 
 [node name="healSound" type="AudioStreamPlayer2D" parent="Audio" unique_id=368275599]
 stream = ExtResource("14_o3h8g")
+
+[node name="gun" type="Sprite2D" parent="." unique_id=789954457]
+z_index = 5
+scale = Vector2(0.111428574, 0.111428574)
+texture = ExtResource("18_ulo2v")
+offset = Vector2(640, 0)
